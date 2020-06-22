@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="jquery-1.7.2.min.js"></script>
+</head>
+<body>
+    <td><a href="#" onclick="getir()"><input type="button" value="Deneme" /></a> </td>
+    <script type="text/javascript">
+
+        function getir() {
+
+            var token = $.parseJSON(localStorage.getItem('Token'));
+            var tkn = token.access_token;
+            $.ajax({
+                type: "POST",
+                url: "https://localhost:44374/api/user",
+                crossDomain: true,
+                dataType: "json",
+                data:"kutlu",
+                headers: {
+                    "accept": "application/json",
+                    "content-type": "application/json",
+                    "authorization": "Bearer " + tkn
+                },
+                success: function (data) {
+                    alert(data);
+
+                },
+                error: function (xhr, status, error) {
+                    alert(status + " " + error);
+                }
+            });
+
+        }
+
+        $(document).ready(function () {
+            var name = "admin";
+            var pwd = "1";
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "https://localhost:44374/token",
+                crossDomain: true,
+                withCredentials: true,
+                data: {
+                    'username': name,
+                    'password': pwd,
+                    'grant_type': 'password',
+                },
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                dataType: "json",
+                success: function (data) {
+                    localStorage.setItem('Token', JSON.stringify(data));
+
+                },
+                error: function (xhr, status, error) {
+                    alert(status + " " + error);
+                }
+            });
+
+
+        });
+
+
+    </script>
+</body>
+
+
+
+</html>
